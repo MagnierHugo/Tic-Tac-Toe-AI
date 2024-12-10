@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include <typeindex>
+#include <SFML/Graphics.hpp>
 
 #include "board.hpp"
 #include "player.hpp"
@@ -10,6 +11,7 @@
 
 class Game {
 
+	sf::RenderWindow window;
 	Board board;
 
 	std::array<Player*, 2> players = {

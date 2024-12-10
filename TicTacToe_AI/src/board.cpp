@@ -5,6 +5,20 @@
 #include "../include/utilities.hpp"
 
 
+Board::Board() {
+	gridTexture.loadFromFile("Assets/Grid.png");
+	xTexture.loadFromFile("Assets/X.png");
+	oTexture.loadFromFile("Assets/O.png");
+
+	gridSprite.setTexture(gridTexture);
+	gridSprite.setPosition(
+		{
+			(1440 - static_cast<float>(gridTexture.getSize().x)) / 2,
+			(1080 - static_cast<float>(gridTexture.getSize().y)) / 2
+		}
+	);
+}
+
 Board::Board(const Board& board) {
 	grid = board.grid;
 	possiblePlay = board.possiblePlay;
@@ -35,7 +49,33 @@ Board Board::PlaceOnGridCopy(const char symbol, const std::pair<int, int>& play)
 }
 
 
-void Board::RenderGrid() const {
+void Board::RenderGrid(sf::RenderWindow& window) const {
+	window.clear(sf::Color::White);
+	window.draw(gridSprite);
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			char symbole = grid[i][j];
+			if (symbole == ' ') { continue; }
+			sf::Sprite sprite;
+			sprite.setTexture(symbole == 'X' ? xTexture : oTexture);
+			sf::FloatRect gridRect = gridSprite.getGlobalBounds();
+			sf::Vector2f gridPos = gridRect.getPosition();
+			sf::Vector2f gridSize = gridRect.getSize();
+			sprite.setPosition(
+				{
+					gridPos.x + 15 + gridSize.x * j / 3,
+					gridPos.y + 15 + gridSize.y * i / 3
+				}
+			);
+			sprite.setScale({ 2.3f, 2.3f });
+
+			window.draw(sprite);
+		}
+	}
+
+	window.display();
+
 	for (int i = 0; i < 3; i++) {
 		std::cout << grid[i][0] << "|" << grid[i][1] << "|" << grid[i][2] << std::endl;
 		if (i < 2) {

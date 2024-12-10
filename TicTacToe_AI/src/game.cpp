@@ -21,6 +21,8 @@ Game::Game() {
 			delete temp;
 		}
 	}
+
+	window.create(sf::VideoMode(1440, 1080), "Tic Tac Toe AI");
 }
 
 
@@ -40,12 +42,20 @@ bool Game::CheckGameOver(char currentPlayerSymbol) const {
 int Game::Run() {
 	bool playing = true;
 
-	while (true) {
+	while (window.isOpen()) {
+
+		sf::Event e;
+		while (window.pollEvent(e) != 0) {
+			if (e.type == sf::Event::Closed) {
+				window.close();
+			}
+		}
+
 		for (Player* player : players) {
-			board.RenderGrid();
+			board.RenderGrid(window);
 			player->Play(board);
 			if (CheckGameOver(player->GetSymbol())) {
-				board.RenderGrid();
+				board.RenderGrid(window);
 				std::cout << "Game Over !!" << std::endl;
 				playing = false;
 				break;
@@ -57,7 +67,10 @@ int Game::Run() {
 			_condition_func func = [&]() -> bool { Str_ToLower(answer); return !Contains<std::array<std::string, 4>, std::string>({ "y", "yes", "n", "no" }, answer); };
 			AskUser<std::string>(answer, "Continue Playing ? (yes or no)", func);
 
-			if (answer == "n" || answer == "no") { return 0; }
+			if (answer == "n" || answer == "no") {
+				window.close();
+				return 0; 
+			}
 			playing = true;
 			board.Clear();
 		}

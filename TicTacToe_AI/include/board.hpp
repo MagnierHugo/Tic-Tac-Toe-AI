@@ -1,12 +1,19 @@
 #pragma once
 #include <array>
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 
 class Board {
 
 	using Grid = std::array<std::array<char, 3>, 3>;
 	using PairList = std::vector<std::pair<int, int>>;
+
+	sf::Texture gridTexture;
+	sf::Texture xTexture;
+	sf::Texture oTexture;
+
+	sf::Sprite gridSprite;
 
 	Grid grid = { {
 		{' ', ' ', ' '},
@@ -21,7 +28,7 @@ class Board {
 	};
 
 public:
-	Board() = default;
+	Board();
 	Board(const Board& board);
 
 	PairList GetPossiblePlay() const;
@@ -30,7 +37,7 @@ public:
 	void PlaceOnGrid(const char symbol, const std::pair<int, int>& play);
 	Board PlaceOnGridCopy(const char symbol, const std::pair<int, int>& play) const;
 
-	void RenderGrid() const;
+	void RenderGrid(sf::RenderWindow& window) const;
 	void Clear();
 
 	bool CheckWin() const;
