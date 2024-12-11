@@ -44,16 +44,9 @@ int Game::Run() {
 
 	while (window.isOpen()) {
 
-		sf::Event e;
-		while (window.pollEvent(e) != 0) {
-			if (e.type == sf::Event::Closed) {
-				window.close();
-			}
-		}
-
 		for (Player* player : players) {
 			board.RenderGrid(window);
-			player->Play(board);
+			player->Play(board, window);
 			if (CheckGameOver(player->GetSymbol())) {
 				board.RenderGrid(window);
 				std::cout << "Game Over !!" << std::endl;

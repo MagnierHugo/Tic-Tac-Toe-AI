@@ -14,5 +14,5 @@ class AIPlayer : public Player {
 public:
 	AIPlayer(Player player);
 
-	void Play(Board& board) override;
+	void Play(Board& board, sf::RenderWindow& window) override;
 };

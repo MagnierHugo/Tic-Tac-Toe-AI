@@ -15,6 +15,8 @@ class Board {
 
 	sf::Sprite gridSprite;
 
+	std::vector<sf::FloatRect> gridColliders;
+
 	Grid grid = { {
 		{' ', ' ', ' '},
 		{' ', ' ', ' '},
@@ -32,6 +34,7 @@ public:
 	Board(const Board& board);
 
 	PairList GetPossiblePlay() const;
+	std::vector<sf::FloatRect> GetGridColliders() const;
 
 	void PlaceOnGrid(const char symbol, const int row, const int column);
 	void PlaceOnGrid(const char symbol, const std::pair<int, int>& play);

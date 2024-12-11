@@ -9,7 +9,7 @@ AIPlayer::AIPlayer(Player player) {
 }
 
 
-void AIPlayer::Play(Board& board) {
+void AIPlayer::Play(Board& board, sf::RenderWindow& window) {
 	TestedPlay play = AlphaBetaPruning(board, 0, -INF, INF);
 	board.PlaceOnGrid(symbol, play.position);
 }

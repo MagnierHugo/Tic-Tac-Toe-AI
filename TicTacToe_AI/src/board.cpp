@@ -11,13 +11,27 @@ Board::Board() {
 	oTexture.loadFromFile("Assets/O.png");
 
 	gridSprite.setTexture(gridTexture);
-	gridSprite.setPosition(
-		{
-			(1440 - static_cast<float>(gridTexture.getSize().x)) / 2,
-			(1080 - static_cast<float>(gridTexture.getSize().y)) / 2
+
+	sf::Vector2f gridPos = {
+		(1440 - static_cast<float>(gridTexture.getSize().x)) / 2,
+		(1080 - static_cast<float>(gridTexture.getSize().y)) / 2
+	};
+
+	gridSprite.setPosition(gridPos);
+
+	sf::FloatRect gridRect = gridSprite.getGlobalBounds();
+	std::cout << "GridRect Left: " << gridRect.left << std::endl;
+	sf::Vector2f cellSize = { gridRect.width / 3, gridRect.height / 3 };
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			sf::FloatRect collider = { gridPos.x + cellSize.x * j, gridPos.y + cellSize.y * i, cellSize.x, cellSize.y };
+			gridColliders.push_back(collider);
+			std::cout << "collider Left: " << collider.left << std::endl;
 		}
-	);
+	}
 }
+
 
 Board::Board(const Board& board) {
 	grid = board.grid;
@@ -27,6 +41,11 @@ Board::Board(const Board& board) {
 
 Board::PairList Board::GetPossiblePlay() const {
 	return possiblePlay;
+}
+
+
+std::vector<sf::FloatRect> Board::GetGridColliders() const {
+	return gridColliders;
 }
 
 

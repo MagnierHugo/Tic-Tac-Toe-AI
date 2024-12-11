@@ -14,7 +14,7 @@ public:
 	Player() = default;
 	Player(char symbol_) : symbol(symbol_) {}
 
-	virtual void Play(Board& board);
+	virtual void Play(Board& board, sf::RenderWindow& window);
 	char GetSymbol() const;
 
 };
