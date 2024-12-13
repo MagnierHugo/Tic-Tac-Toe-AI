@@ -24,6 +24,7 @@ void Player::Play(Board& board, sf::RenderWindow& window) {
 						std::cout << i << std::endl;
 						row = i / 3;
 						column = i % 3;
+						if (!board.IsValidePlay(row, column)) { continue; }
 						played = true;
 						break;
 					}
